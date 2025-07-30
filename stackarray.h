@@ -1,6 +1,6 @@
 typedef struct {
   // Ссылка на буффер стека
-  int **buffer;
+  void **buffer;
   // Stack Pointer
   int sp;
 } Stack;

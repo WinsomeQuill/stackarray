@@ -4,7 +4,7 @@
 
 void init_stack(Stack *s, void *buffer) {
   s->sp = -1;
-  s->buffer = buffer;
+  s->buffer = (void **)buffer;
 }
 
 int is_empty(Stack *s) { return s->sp == -1; }
