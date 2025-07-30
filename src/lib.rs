@@ -77,3 +77,4 @@ impl<T, const N: usize> Default for Stack<T, N> {
         Self::new()
     }
 }
+
