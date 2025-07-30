@@ -2,14 +2,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void init_stack(Stack *s, void *buffer) {
+void init_stack(Stack *s, void *buffer, int max_size) {
   s->sp = -1;
   s->buffer = (void **)buffer;
+  s->max_size = max_size;
 }
 
 int is_empty(Stack *s) { return s->sp == -1; }
 
-int is_full(Stack *s) { return s->sp == s->sp - 1; }
+int is_full(Stack *s) { return s->sp >= s->max_size - 1; }
 
 void *get(Stack *s, int index) {
   if (is_empty(s)) {

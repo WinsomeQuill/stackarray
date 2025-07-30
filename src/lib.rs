@@ -15,15 +15,17 @@ pub struct Stack<T, const N: usize> {
 }
 
 impl<T, const N: usize> Stack<T, N> {
-    pub fn new() -> Stack<T, N> {
+    /// Создает новый стек
+    pub fn new() -> Self {
         let mut buffer = [ptr::null_mut::<c_void>(); N];
         let mut inner = c::Stack {
             sp: -1,
             buffer: buffer.as_mut_ptr(),
+            max_size: N as i32,
         };
 
         unsafe {
-            c::init_stack(&mut inner, buffer.as_mut_ptr() as *mut c_void);
+            c::init_stack(&mut inner, buffer.as_mut_ptr() as *mut c_void, N as i32);
         }
 
         Stack {
@@ -33,20 +35,23 @@ impl<T, const N: usize> Stack<T, N> {
         }
     }
 
-    pub fn push(&mut self, value: &mut T) -> bool {
-        let ptr = value as *mut T as *mut c_void;
+    /// Добавляет элемент в стек
+    pub fn push(&mut self, value: &T) -> bool {
+        let ptr = value as *const T as *mut c_void;
         unsafe { c::push(&mut self.inner, ptr) != 0 }
     }
 
-    pub fn pop(&mut self) -> Option<&'static mut T> {
+    /// Извлекает элемент из стека
+    pub fn pop(&mut self) -> Option<&'static T> {
         let ptr = unsafe { c::pop(&mut self.inner) };
         if ptr.is_null() {
             None
         } else {
-            Some(unsafe { &mut *(ptr as *mut T) })
+            Some(unsafe { &*(ptr as *const T) })
         }
     }
 
+    /// Получает элемент по индексу
     pub fn get(&self, index: usize) -> Option<&T> {
         let ptr = unsafe { c::get(&self.inner as *const _ as *mut _, index as i32) };
         if ptr.is_null() {
@@ -56,10 +61,12 @@ impl<T, const N: usize> Stack<T, N> {
         }
     }
 
+    /// Проверяет, пуст ли стек
     pub fn is_empty(&self) -> bool {
         unsafe { c::is_empty(&self.inner as *const _ as *mut _) != 0 }
     }
 
+    /// Проверяет, полон ли стек
     pub fn is_full(&self) -> bool {
         unsafe { c::is_full(&self.inner as *const _ as *mut _) != 0 }
     }
