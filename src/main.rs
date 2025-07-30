@@ -86,7 +86,7 @@ fn main() {
     println!("Popped: {:?}", int_stack.pop().map(|v| *v));
 
     // Тест с String
-    let mut string_stack = Stack::<String, 1>::new();
+    let mut string_stack = Stack::<String, 2>::new();
     let mut s1 = String::from("Hello");
     let mut s2 = String::from("World");
     println!("\n=== String Stack ===");
