@@ -70,31 +70,3 @@ impl<T, const N: usize> Default for Stack<T, N> {
         Self::new()
     }
 }
-
-fn main() {
-    // Тест с i32
-    let mut int_stack = Stack::<i32, 1024>::new();
-    let mut a = 10;
-    let mut b = 20;
-    println!("=== i32 Stack ===");
-    println!("Pushing {}", a);
-    int_stack.push(&mut a);
-    println!("Pushing {}", b);
-    int_stack.push(&mut b);
-    println!("Top value: {:?}", int_stack.get(1));
-    println!("Popped: {:?}", int_stack.pop().map(|v| *v));
-    println!("Popped: {:?}", int_stack.pop().map(|v| *v));
-
-    // Тест с String
-    let mut string_stack = Stack::<String, 2>::new();
-    let mut s1 = String::from("Hello");
-    let mut s2 = String::from("World");
-    println!("\n=== String Stack ===");
-    println!("Pushing {}", s1);
-    string_stack.push(&mut s1);
-    println!("Pushing {}", s2);
-    string_stack.push(&mut s2);
-    println!("Top value: {:?}", string_stack.get(1));
-    println!("Popped: {:?}", string_stack.pop().map(|v| v.clone()));
-    println!("Popped: {:?}", string_stack.pop().map(|v| v.clone()));
-}
